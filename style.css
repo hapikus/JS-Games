@@ -1,0 +1,193 @@
+/* General */
+
+body{
+    background-color: white;
+}
+/* The emerging W3C standard
+   that is currently Firefox-only */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: lightgray white;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+
+*::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+    border-radius: 20px;
+    border: 3px solid white;
+}
+  
+
+hr {
+    background-color: whitesmoke;
+}
+
+iframe{
+    width: max(33.3vw, 324px);
+    height: max(22.7vw, 135px);
+}
+
+img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select:none;
+    -webkit-touch-callout:none;
+}
+
+.shadowless {
+    box-shadow: none!important;
+}
+
+.code-tags span{
+    font-family: Consolas, monaco, monospace;
+    padding: 2px;
+    background-color: #b7e5c4;
+    background-color: whitesmoke;
+    margin-right: min(1vh, 1vw);
+}
+
+.my-highlight :hover{
+    background-color: whitesmoke;
+}
+
+
+/* Header */
+
+#my-title{
+    font-size: 3em;
+    text-align: center;
+}
+
+.my-header{
+    font-size: 1.5em;
+}
+
+
+/* Nav Bar */
+
+.my-nav a{
+    color: black;
+}
+
+.my-nav img{
+    height: min(10vh, 10vw);
+    width: min(10vh, 10vw);
+    position: relative;
+}
+
+.my-nav h2{
+    text-align: center;
+}
+
+.my-nav-content {
+    display: flex;
+    justify-content: center;
+}
+
+
+.my-nav-content ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.my-nav-content li {
+    font-size: min(3h, 3vw);
+    float: left;
+}
+
+
+.my-nav-content li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+}
+
+.my-nav-content li a:hover {
+    background-color: whitesmoke;
+}
+
+/* Project */
+
+.card-image {
+    height: 250px;
+    border: 1px solid rgba(160,160,160,0.2);
+    background-color: inherit;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+}
+
+#ss-spaceinvaders {
+    background-image: url(./images/spaceinvaders-ss.png);
+    background-size: auto 100%;
+}
+
+#ss-verticalplatformer {
+    background-image: url(./images/verticalplatformer-ss.png);
+    background-size: auto 100%;
+}
+
+#ss-2048 {
+    background-image: url(./images/2048-ss.png);
+    background-size: auto 100%;
+}
+
+#ss-candy-crush {
+    background-image: url(./images/candy-crush-ss.png);
+    background-size: auto 100%;
+}
+
+#ss-tetris {
+    background-image: url(./images/tetris-ss.png);
+    background-size: auto 100%;
+}
+
+
+.card-image img {
+    width: auto;
+}
+
+.other-projects{
+    margin-top: 2%;
+    color: lightgray;
+}
+
+.other-projects ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.other-projects li {
+    font-size: min(3.5vh, 3.5vw);
+    float: left;
+}
+
+
+.other-projects li a {
+    display: block;
+    color: lightgray;
+    padding: 16px;
+    text-decoration: none;
+}
+
+.other-projects li a:hover{
+    color: gray;
+}
+
+/* Copy Right Logo */
+.my-copyright{
+    text-align: center;
+    font-size: 1em;
+    color: black;
+}
