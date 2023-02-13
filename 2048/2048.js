@@ -156,23 +156,24 @@ function updateTile(tile, num) {
 // keyup - we wanna set up this 1 time per press button
 // not like this - kkkkkkkkk
 document.addEventListener("keyup",  (e) => {
+    console.log(e);
     if (gameOver) return;
 
     boardBefore = board.toString();
 
-    if (e.code == "ArrowLeft") {
+    if (e.code == "ArrowLeft" || e.code == "KeyA") {
         slideLeft();
         boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
     } 
-    else if (e.code == "ArrowRight") {
+    else if (e.code == "ArrowRight" || e.code == "KeyD") {
         slideRight();
         boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
     } 
-    else if (e.code == "ArrowUp") {
+    else if (e.code == "ArrowUp" || e.code == "KeyW") {
         slideUp();
         boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
     } 
-    else if (e.code == "ArrowDown") {
+    else if (e.code == "ArrowDown" || e.code == "KeyS") {
         slideDown();
         boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
     }
