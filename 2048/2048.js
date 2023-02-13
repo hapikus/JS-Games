@@ -13,13 +13,43 @@ window.onload = function() {
     setGame();
 }
 
-function setGame() {
+function restartGame() {
+    gameOver = false;
+
     board = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
     ];
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let tile = document.getElementById(`${r}-${c}`);
+            let num = board[r][c]
+            updateTile(tile, num);
+        }
+    }
+
+    setTwo();
+    setTwo();
+}
+
+function setGame() {
+
+    board = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+    ];
+
+    let boardDiv = document.getElementById("board");
+    let boardDivWidth = boardDiv.offsetWidth;
+    let boardDivHeight = boardDiv.offsetHeight;
+    let value = Math.min(400, boardDivWidth-10, boardDivHeight-10);
+    boardDiv.style.width = value + 'px';
+    boardDiv.style.height = value + 'px';
 
     // create tiles
     for (let r = 0; r < rows; r++) {
@@ -28,6 +58,9 @@ function setGame() {
             // create tile
             let tile = document.createElement("div")
             tile.id = `${r}-${c}`;
+            console.log('boardDivWidth', boardDivWidth);
+            tile.style.width = Math.min(90, (boardDivWidth - 50)/4) + 'px';
+            tile.style.height = Math.min(90, (boardDivWidth - 50)/4) + 'px';
             let num = board[r][c]
             updateTile(tile, num);
 
@@ -73,10 +106,12 @@ function gameOverCheck() {
         
         if (!possibleChanges) {
             gameOver = true;
-            console.log('gameOver, score: ', score);
-            return
+            alert(`Game over, score: ${score}`);
         };
     }
+
+    if (gameOver) restartGame();
+
 } /* gameOverCheck() */
 
 function setTwo() {
@@ -145,6 +180,53 @@ document.addEventListener("keyup",  (e) => {
     document.getElementById("score").innerText = score;
 })
 
+let touchX = '';
+let touchY = '';
+let touchMove = false;
+let touchTreshhold = 40;
+document.addEventListener('touchstart', e => {
+    touchX = e.changedTouches[0].pageX;
+    touchY = e.changedTouches[0].pageY;
+})
+
+document.addEventListener('touchmove', e => {
+    if (gameOver) return;
+
+    boardBefore = board.toString();
+
+    let sweepDistanceX = e.changedTouches[0].pageX - touchX;
+    let sweepDistanceY = e.changedTouches[0].pageY - touchY;
+
+    if (sweepDistanceX < -touchTreshhold) {
+        if (!touchMove) {
+            slideLeft();
+            boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
+        }
+        touchMove = true;
+    } else if (sweepDistanceX > touchTreshhold) {
+        if (!touchMove) {
+            slideRight();
+            boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
+            touchMove = true;
+        }
+    } else if (sweepDistanceY < -touchTreshhold) {
+        if (!touchMove) {
+            slideUp();
+            boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
+            touchMove = true;            
+        }
+    } else if (sweepDistanceY > touchTreshhold) {
+        if (!touchMove) {
+            slideDown();
+            boardBefore !=  board.toString() ? setTwo() : gameOverCheck();
+            touchMove = true;
+        }
+    }
+})
+
+document.addEventListener('touchend', e => {
+    touchMove = false;
+})
 
 function clearZero(arr) {
     while (arr.includes(0)) {
