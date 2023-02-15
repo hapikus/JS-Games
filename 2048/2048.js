@@ -15,6 +15,7 @@ window.onload = function() {
 
 function restartGame() {
     gameOver = false;
+    score = 0;
 
     board = [
         [0, 0, 0, 0],
