@@ -48,6 +48,8 @@ class Player extends Sprite {
             width: 200,
             height: 80,
         }
+
+        this.score = 0;
     };
 
     switchSprite(key) {
@@ -117,7 +119,7 @@ class Player extends Sprite {
         //     this.camerabox.height,
         // );
 
-        // // hitbox 
+        // hitbox 
         // board.fillStyle = 'rgba(0, 0, 255, 0.5)';
         // board.fillRect(
         //     this.hitbox.position.x, 
@@ -130,10 +132,16 @@ class Player extends Sprite {
 
         this.position.x += this.velocity.x;
         this.updateHitbox();
+        this.checkItemCollision();
+
         this.checkHorizontalCollisions();
         this.applayGravity();
+
         this.updateHitbox();
+        this.checkItemCollision();
         this.checkVerticalCollisions();
+
+
     }
 
     updateHitbox() {
@@ -238,6 +246,27 @@ class Player extends Sprite {
                     this.position.x = currentBlock.position.x + currentBlock.width - offset + 0.01;
                     break
                 }
+            }
+        }
+    }
+
+    checkItemCollision() {
+        for (let i = 0; i < itemArray.length; i++) {
+            if (
+                collision({
+                    object1: this.hitbox, 
+                    object2: itemArray[i].hitbox,
+                })
+            ) {
+
+                let ind = currentCoordinates.indexOf(itemArray[i].spawnSlot);
+                currentCoordinates.splice(ind, 1);
+                
+                this.score += itemArray[i].score;
+                document.getElementById('score').innerText = this.score;
+                
+                itemArray.splice(i, 1);
+                return
             }
         }
     }

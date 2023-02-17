@@ -218,9 +218,9 @@ function moveShip(e) {
         return;
     }
 
-    if (e.code == "ArrowLeft" &&  ship.x - shipVelocityX >= 0) {
+    if ((e.code == "ArrowLeft" || e.code == "KeyA") &&  ship.x - shipVelocityX >= 0) {
         ship.x -= shipVelocityX // move left 1 tile
-    } else if (e.code == "ArrowRight" && ship.x + shipVelocityX + shipWidth <= boardWidth) {
+    } else if ((e.code == "ArrowRight" || e.code == "KeyD") && ship.x + shipVelocityX + shipWidth <= boardWidth) {
         ship.x += shipVelocityX
     }
 } /*  moveShip(e) */

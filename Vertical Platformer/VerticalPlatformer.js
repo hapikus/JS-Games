@@ -1,4 +1,8 @@
+function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+};
 
+let maxItems = 5;
 let canvas;
 
 canvas = document.getElementById('board');
@@ -22,6 +26,7 @@ let keys = {
 }
 
 // our map floor's blocks
+let itemSwawnSlots = []
 let floorCollisions2D = [];
 
 for (let i = 0; i < floorCollisions.length; i+=36) {
@@ -40,7 +45,16 @@ floorCollisions2D.forEach((row, rowIndex) => {
                         y: rowIndex * 16
                     },
                 })
-            )
+            );
+
+            if (rowIndex >= 25 || rowIndex <= 22) {
+                itemSwawnSlots.push({
+                    position : {
+                        x: columnIndex * 16, 
+                        y: (rowIndex - 1) * 16,
+                    },
+                });
+            }
         }
     })
 })
@@ -64,7 +78,15 @@ platformCollisions2D.forEach((row, rowIndex) => {
                     },
                     height: 7,
                 })
-            )
+            );
+
+            itemSwawnSlots.push({
+                position : {
+                    x: columnIndex * 16, 
+                    y: (rowIndex - 1) * 16,
+                },
+            });
+
         }
     })
 })
@@ -79,6 +101,55 @@ let camera = {
         y: -backgroundImageHeight + scaledCanvas.height,
     },
 }
+
+let bigDiamond = new Item(
+    {position: {
+        x: 150,
+        y: 350,
+    },
+    frameBuffer: 8,
+    imageSrc: './img/Coins/Big Diamond Idle (18x14).png',
+    frameRate: 10,
+    animations: {
+        Idle: {
+            imageSrc: './img/Coins/Big Diamond Idle (18x14).png',
+            frameRate: 8,
+            frameBuffer: 3,
+        },
+        Hit: {
+            imageSrc: './img/Coins/Big Diamond Hit (18x14).png',
+            frameRate: 2,
+            frameBuffer: 3,
+        },
+    }
+});
+
+let bigHeart = new Item(
+    {position: {
+        x: 170,
+        y: 350,
+    },
+    frameBuffer: 8,
+    imageSrc: './img/Coins/Big Heart Idle (18x14).png',
+    frameRate: 8,
+    animations: {
+        Idle: {
+            imageSrc: './img/Coins/Big Heart Idle (18x14).png',
+            frameRate: 8,
+            frameBuffer: 6,
+        },
+        Hit: {
+            imageSrc: './img/Coins/Big Heart Hit (18x14).png',
+            frameRate: 2,
+            frameBuffer: 3,
+        },
+    }
+});
+
+let itemArray = [];
+let currentCoordinates = [];
+
+itemGeneration();
 
 let hero = new Player(
     {position: {
@@ -142,6 +213,8 @@ let background = new Sprite({
     imageSrc: './img/background.png',
 })
 
+
+
 function animate() {
     window.requestAnimationFrame(animate);
     // our main board 
@@ -167,6 +240,13 @@ function animate() {
     // hero
     hero.checkForHorizontalCanvasCollisions();
     hero.update();
+
+    // items
+    itemGeneration();
+
+    for (let item of itemArray) {
+        item.update();
+    };
 
     hero.velocity.x = 0;
     if (keys.a.pressed) {
@@ -205,7 +285,7 @@ function animate() {
     }
 
     board.restore()
- 
+
 }
 
 function keyDownEvent(e) {
@@ -213,10 +293,19 @@ function keyDownEvent(e) {
         case 'KeyA': 
             keys.a.pressed = true;
         break;
+        case 'ArrowLeft': 
+            keys.a.pressed = true;
+        break;
         case 'KeyD': 
             keys.d.pressed = true;
         break;
+        case 'ArrowRight': 
+            keys.d.pressed = true;
+        break;
         case 'KeyW':
+            hero.velocity.y = -6;
+        break;
+        case 'Space':
             hero.velocity.y = -6;
         break;
     }
@@ -227,7 +316,13 @@ function keyUpEvent(e) {
         case 'KeyA': 
             keys.a.pressed = false;
         break;
+        case 'ArrowLeft': 
+            keys.a.pressed = false;
+        break;
         case 'KeyD': 
+            keys.d.pressed = false;
+        break;
+        case 'ArrowRight': 
             keys.d.pressed = false;
         break;
     }
@@ -236,3 +331,64 @@ function keyUpEvent(e) {
 animate();
 window.addEventListener("keydown", keyDownEvent);
 window.addEventListener("keyup", keyUpEvent)
+
+function itemGeneration() {
+    while (itemArray.length < maxItems) {
+        diamondOrHear = randomIntFromInterval(1, 2);
+        itemSlot = randomIntFromInterval(0, itemSwawnSlots.length - 1);
+        itemCoordinates = itemSwawnSlots[itemSlot];
+    
+        if (!currentCoordinates.includes(itemSlot)) {
+            currentCoordinates.push(itemSlot);
+            if ( diamondOrHear === 1 ) {
+                itemArray.push(new Item(
+                    { position: {
+                        x: itemCoordinates.position.x,
+                        y: itemCoordinates.position.y,
+                    },
+                    frameBuffer: 8,
+                    imageSrc: './img/Coins/Big Diamond Idle (18x14).png',
+                    frameRate: 10,
+                    animations: {
+                        Idle: {
+                            imageSrc: './img/Coins/Big Diamond Idle (18x14).png',
+                            frameRate: 8,
+                            frameBuffer: 3,
+                        },
+                        Hit: {
+                            imageSrc: './img/Coins/Big Diamond Hit (18x14).png',
+                            frameRate: 2,
+                            frameBuffer: 3,
+                        },
+                    },
+                    spawnSlot: itemSlot,
+                    score: 200,
+                })
+            )} else {
+                itemArray.push(new Item(
+                    { position: {
+                        x: itemCoordinates.position.x,
+                        y: itemCoordinates.position.y,
+                    },
+                    frameBuffer: 8,
+                    imageSrc: './img/Coins/Big Heart Idle (18x14).png',
+                    frameRate: 8,
+                    animations: {
+                        Idle: {
+                            imageSrc: './img/Coins/Big Heart Idle (18x14).png',
+                            frameRate: 8,
+                            frameBuffer: 6,
+                        },
+                        Hit: {
+                            imageSrc: './img/Coins/Big Heart Hit (18x14).png',
+                            frameRate: 2,
+                            frameBuffer: 3,
+                        },
+                    },
+                    spawnSlot: itemSlot,
+                    score: 100,
+                })
+            )}
+        }
+    };
+};

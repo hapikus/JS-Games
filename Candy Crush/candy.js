@@ -58,7 +58,6 @@ function startGame() {
 
 function dragStart() {
     currTile = this;
-
 }
 
 function dragOver(e) {
@@ -70,7 +69,6 @@ function dragEnter(e) {
 }
 
 function dragLeave() {
-
 }
 
 function dragDrop() {
@@ -105,7 +103,6 @@ function crushCande() {
     checkFive();
     crushFour();
     crushThree();
-
 
     document.getElementById("score").innerText = score;
 }

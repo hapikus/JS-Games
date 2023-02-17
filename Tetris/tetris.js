@@ -108,7 +108,6 @@ function draw(){
 
     drawMatrix(arena, {x: 0, y: 0});
     drawMatrix(player.matrix, player.pos);
-
 }
 
 function drawMatrix(matrix, offset) {
@@ -244,19 +243,20 @@ const player = {
 }
 
 document.addEventListener('keydown', event => {
-    if (event.key === 'ArrowLeft') {
+    console.log(event);
+    if (event.key === 'ArrowLeft' || event.code === 'KeyA') {
         playerMove(-1);
-    } else if (event.key === 'ArrowRight') {
+    } else if (event.key === 'ArrowRight' || event.code === 'KeyD' ) {
         playerMove(1); 
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === 'ArrowDown' || event.code === 'KeyS') {
         playerDrop();
     }
 })
 
 document.addEventListener("keyup", event => {
-    if (event.code === 'KeyA') {
+    if (event.code === 'KeyQ') {
         playerRotate(1);
-    } else if (event.code === 'KeyD') {
+    } else if (event.code === 'KeyE') {
         playerRotate(-1);
     }
 })
