@@ -261,10 +261,16 @@ class Player extends Sprite {
 
                 let ind = currentCoordinates.indexOf(itemArray[i].spawnSlot);
                 currentCoordinates.splice(ind, 1);
-                
+                                
                 this.score += itemArray[i].score;
                 document.getElementById('score').innerText = this.score;
                 
+                itemArray[i].currentFrame = 0;
+                itemArray[i].image = itemArray[i].animations['Hit'].image;      
+                itemArray[i].frameRate = itemArray[i].animations['Hit'].frameRate;
+                itemArray[i].frameBuffer = itemArray[i].animations['Hit'].frameBuffer;
+
+                takenArray.push(itemArray[i])
                 itemArray.splice(i, 1);
                 return
             }

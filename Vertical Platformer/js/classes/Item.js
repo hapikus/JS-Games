@@ -46,6 +46,7 @@ class Item {
 
         this.spawnSlot = spawnSlot;
         this.score = score;
+        this.readyToDelete = false;
     }
 
     draw() {
@@ -93,6 +94,9 @@ class Item {
             if (this.currentFrame < this.frameRate - 1) {
                 this.currentFrame++
             } else {
+                if ( this.image === this.animations['Hit'].image) {
+                    this.readyToDelete = true;   
+                }
                 this.currentFrame = 0
             }
         }

@@ -102,52 +102,11 @@ let camera = {
     },
 }
 
-let bigDiamond = new Item(
-    {position: {
-        x: 150,
-        y: 350,
-    },
-    frameBuffer: 8,
-    imageSrc: './img/Coins/Big Diamond Idle (18x14).png',
-    frameRate: 10,
-    animations: {
-        Idle: {
-            imageSrc: './img/Coins/Big Diamond Idle (18x14).png',
-            frameRate: 8,
-            frameBuffer: 3,
-        },
-        Hit: {
-            imageSrc: './img/Coins/Big Diamond Hit (18x14).png',
-            frameRate: 2,
-            frameBuffer: 3,
-        },
-    }
-});
-
-let bigHeart = new Item(
-    {position: {
-        x: 170,
-        y: 350,
-    },
-    frameBuffer: 8,
-    imageSrc: './img/Coins/Big Heart Idle (18x14).png',
-    frameRate: 8,
-    animations: {
-        Idle: {
-            imageSrc: './img/Coins/Big Heart Idle (18x14).png',
-            frameRate: 8,
-            frameBuffer: 6,
-        },
-        Hit: {
-            imageSrc: './img/Coins/Big Heart Hit (18x14).png',
-            frameRate: 2,
-            frameBuffer: 3,
-        },
-    }
-});
-
 let itemArray = [];
 let currentCoordinates = [];
+
+let takenArray = [];
+let takenArrayAnimation = [];
 
 itemGeneration();
 
@@ -243,8 +202,13 @@ function animate() {
 
     // items
     itemGeneration();
+    itemRemover();
 
     for (let item of itemArray) {
+        item.update();
+    };
+
+    for (let item of takenArray) {
         item.update();
     };
 
@@ -358,7 +322,7 @@ function itemGeneration() {
                         Hit: {
                             imageSrc: './img/Coins/Big Diamond Hit (18x14).png',
                             frameRate: 2,
-                            frameBuffer: 3,
+                            frameBuffer: 8,
                         },
                     },
                     spawnSlot: itemSlot,
@@ -382,7 +346,7 @@ function itemGeneration() {
                         Hit: {
                             imageSrc: './img/Coins/Big Heart Hit (18x14).png',
                             frameRate: 2,
-                            frameBuffer: 3,
+                            frameBuffer: 8,
                         },
                     },
                     spawnSlot: itemSlot,
@@ -392,3 +356,12 @@ function itemGeneration() {
         }
     };
 };
+
+function itemRemover() {
+    for (let i = 0; i < takenArray.length; i++) {
+        if (takenArray[i].readyToDelete) {
+            takenArray.splice(i, 1)
+            return
+        }
+    }
+}
