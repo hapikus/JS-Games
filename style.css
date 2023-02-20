@@ -125,6 +125,11 @@ img {
     background-position: center;   
 }
 
+#ss-flappyibird {
+    background-image: url(./images/flappyibird-ss.png);
+    background-size: auto 100%;
+}
+
 #ss-spaceinvaders {
     background-image: url(./images/spaceinvaders-ss.png);
     background-size: auto 100%;
